@@ -1,0 +1,528 @@
+<div>
+  <div class="d-flex row justify-content-between mb-4">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Specialists</h1>
+
+    <button
+      class="btn btn-primary"
+      (click)="openConsultationModal(consultationModal)"
+    >
+      Consultation period
+    </button>
+  </div>
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="row-border hover"
+        >
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Doctors Reg. No.</th>
+              <th>Phone</th>
+              <th>Enabled Status</th>
+              <th>Verification Status</th>
+              <th>Sign Up Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doctor of doctors">
+              <td>{{ doctor.firstName }} {{ doctor.lastName }}</td>
+              <td>{{ doctor.doctorsIDnumber }}</td>
+              <td>{{ doctor.phone }}</td>
+              <td>
+                <div
+                  *ngIf="
+                    doctor.deleted == true;
+                    then isDeleted;
+                    else isNotDeleted
+                  "
+                ></div>
+                <ng-template #isDeleted>
+                  <span class="badge badge-warning p-2">Disabled</span>
+                </ng-template>
+                <ng-template #isNotDeleted>
+                  <span class="badge badge-info p-2">Enabled</span>
+                </ng-template>
+              </td>
+              <td>
+                <div
+                  *ngIf="
+                    doctor.doctorsIDverificationStatus == 'Verified';
+                    then allowBlock;
+                    else notallowBlock
+                  "
+                ></div>
+                <ng-template #allowBlock>
+                  <span class="badge badge-success p-2">Verified</span>
+                </ng-template>
+                <ng-template #notallowBlock>
+                  <span class="badge badge-danger p-2">Not Verified</span>
+                </ng-template>
+              </td>
+              <td>
+                {{ doctor.timeSt }}
+              </td>
+              <td>
+                <a
+                  class="nav-link"
+                  data-toggle="dropdown"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  ><i class="fas fa-ellipsis-v"></i
+                ></a>
+
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    (click)="openDoctorDetailsModal(doctorDetails, doctor)"
+                    style="cursor: pointer"
+                  >
+                    <i class="fa fa-user-md"></i> &nbsp; Show Doctor Details
+                  </a>
+
+                  <a
+                    class="dropdown-item"
+                    (click)="openVerificationStatus(doctorVerification, doctor)"
+                    style="cursor: pointer"
+                  >
+                    <i class="fas fa-toggle-on fa-color-green"></i> &nbsp;
+                    Change Verification Status
+                  </a>
+
+                  <a
+                    class="dropdown-item"
+                    (click)="openEditModal(doctorEdit, doctor)"
+                    style="cursor: pointer"
+                  >
+                    <i class="fas fa-edit fa-color-yellow"></i> &nbsp; Edit
+                    Doctor
+                  </a>
+
+                  <a
+                    class="dropdown-item"
+                    (click)="openDeleteModal(deleteDoctor, doctor)"
+                    style="cursor: pointer"
+                  >
+                    <i class="fas fa-trash-alt fa-color-danger"></i> &nbsp;
+                    Enable or Disable
+                  </a>
+
+                  <a
+                    class="dropdown-item"
+                    (click)="openFeeModal(changeDoctorFee, doctor)"
+                    style="cursor: pointer"
+                  >
+                    <i class="fa fa-arrows-h"></i>&nbsp; Change fee
+                  </a>
+
+                  <a
+                    class="dropdown-item"
+                    style="cursor: pointer"
+                    [routerLink]="['/dashboard/transactions', doctor.userID]"
+                  >
+                    <i class="fa fa-arrows-h"></i>&nbsp; Show Doctor
+                    transactions
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show Doctor Details modal -->
+<ng-template #doctorDetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Doctor Details</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <form [formGroup]="doctorDetailForm">
+      <div class="form-group mb-2">
+        <img
+          src="doctorImage"
+          class="rounded-circle"
+          style="max-width: 150px"
+        />
+      </div>
+      <div class="form-row mb-2">
+        <div class="col form-group">
+          <label for="">First name</label>
+          <input type="text" class="form-control" formControlName="firstName" />
+        </div>
+        <div class="col form-group">
+          <label for="">Last name</label>
+          <input type="text" class="form-control" formControlName="lastName" />
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="col form-group">
+          <label for="">Consultation Fee</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="consultation_fee"
+          />
+        </div>
+        <div class="col form-group">
+          <label for="">Call fee</label>
+          <input type="text" class="form-control" formControlName="call_fee" />
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="col form-group">
+          <label for="">Email</label>
+          <input type="text" class="form-control" formControlName="email" />
+        </div>
+        <div class="col form-group">
+          <label for="">Phone</label>
+          <input type="text" class="form-control" formControlName="phone" />
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="col">
+          <label for="">Doctor Registration Number</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="doctorsIDnumber"
+          />
+        </div>
+        <div class="col">
+          <label for="">Verification Status</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="doctorsIDverificationStatus"
+          />
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="col">
+          <label for="">Height</label>
+          <input type="text" class="form-control" formControlName="height" />
+        </div>
+        <div class="col">
+          <label for="">Weight</label>
+          <input type="text" class="form-control" formControlName="weight" />
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="col">
+          <label for="">Blood Group</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="blood_group"
+          />
+        </div>
+        <div class="col">
+          <label for="">Allergy</label>
+          <input type="text" class="form-control" formControlName="allergy" />
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="col">
+          <label for="">Experience</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="experience"
+          />
+        </div>
+        <div class="col">
+          <label for="">IP Address</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ip_address"
+          />
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="col">
+          <label for="">Hospital</label>
+          <select class="form-control" disabled>
+            <option
+              *ngFor="let hospital of hospitals"
+              value="hospital.specializationAreaID"
+              [selected]="hospital.specializationAreaID == selectedHospital"
+            >
+              {{ hospital.areaOfSpecialization }}
+            </option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="">Specialization</label>
+          <select class="form-control" disabled>
+            <option
+              *ngFor="let sp of specialities"
+              value="sp.specializationID"
+              [selected]="sp.specializationID == selectedSpecialization"
+            >
+              {{ sp.specializationName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group mb-2">
+        <label for="">Doctor Bio</label>
+        <textarea
+          class="form-control"
+          formControlName="doctor_bio"
+          cols="30"
+          rows="4"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Doctor Verification modal -->
+<ng-template #doctorVerification let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Doctor Verification Status
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    Are you sure you want to change Doctor Verification Status?
+    <br /><br />
+    <div
+      *ngIf="status == 'Verified'; then checkVerified; else checkUnverified"
+    ></div>
+    <ng-template #checkVerified>
+      <button class="btn btn-danger" (click)="unverifyDoctorStatus(doctorID)">
+        Unverify
+      </button>
+    </ng-template>
+    <ng-template #checkUnverified>
+      <button class="btn btn-success" (click)="verifyDoctorStatus(doctorID)">
+        Verify
+      </button>
+    </ng-template>
+    <br />
+  </div>
+</ng-template>
+
+<!-- Doctor Update modal -->
+<ng-template #doctorEdit let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Doctor</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="updateDoctorForm" (ngSubmit)="submitDoctorDetails()">
+      <div class="form-row">
+        <div class="col form-group">
+          <label for="">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="firstName"
+            formControlName="firstName"
+          />
+        </div>
+        <div class="col form-group">
+          <label for="">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="lastName"
+            formControlName="lastName"
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col form-group">
+          <label for="">Email</label>
+          <input
+            type="text"
+            name="email"
+            class="form-control"
+            formControlName="email"
+          />
+        </div>
+        <div class="col form-group">
+          <label for="">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            class="form-control"
+            formControlName="phone"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Doctor Specialization</label>
+        <select class="form-control" formControlName="specializationID">
+          <option
+            *ngFor="let sp of specialities"
+            [value]="sp.specializationID"
+            [selected]="sp.specializationID == selectedSpecialization"
+          >
+            {{ sp.specializationName }}
+          </option>
+        </select>
+      </div>
+      <input type="hidden" formControlName="userID" />
+      <div class="form-group">
+        <button class="btn btn-warning" [disabled]="!updateDoctorForm.valid">
+          Update
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Change Fee -->
+<ng-template #changeDoctorFee let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Change Doctor Fee</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <form [formGroup]="changeFeeForm" (ngSubmit)="submitFeeDetails()">
+      <div class="form-row">
+        <div class="col form-group">
+          <label>Consultation Fee</label>
+          <input
+            type="number"
+            name="consultation_fee"
+            class="form-control"
+            formControlName="consultation_fee"
+          />
+        </div>
+        <div class="col form-group">
+          <label for="">Call Fee</label>
+          <input
+            type="number"
+            name="call_fee"
+            class="form-control"
+            formControlName="call_fee"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="hidden" name="userID" formControlName="userID" />
+        <button class="btn btn-success">Change Doctor Fee</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Delete Doctor -->
+<ng-template #deleteDoctor let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"></h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div *ngIf="disabled == true; then enable; else disable"></div>
+
+    <ng-template #enable>
+      Are you sure you want to enable this Doctor?
+      <br /><br />
+      <button class="btn btn-success" (click)="deleteSingleDoctor()">
+        Enable
+      </button>
+    </ng-template>
+
+    <ng-template #disable>
+      Are you sure you want to disable this Doctor?
+      <br /><br />
+      <button class="btn btn-danger" (click)="deleteSingleDoctor()">
+        Disable
+      </button>
+    </ng-template>
+
+    <br />
+  </div>
+</ng-template>
+
+<!-- Consultation Modal -->
+<ng-template #consultationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"></h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <form
+      [formGroup]="consultationPeriodForm"
+      (ngSubmit)="updateConsultationPeriodAction()"
+    >
+      <div class="form-row mb-3">
+        <div class="col">
+          <label for=""> Period </label>
+          <input type="number" class="form-control" formControlName="period" />
+        </div>
+        <div class="col">
+          <label for=""> Period Definition </label>
+          <select class="form-control" formControlName="period_definition">
+            <option value="Hour">Hour</option>
+            <option value="Day">Day</option>
+            <option value="Week">Week</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-warning" type="submit">Update</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

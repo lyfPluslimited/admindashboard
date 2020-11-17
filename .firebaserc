@@ -1,0 +1,18 @@
+{
+  "targets": {
+    "lyfplus-d8549": {
+      "hosting": {
+        "adminDashboard": [
+          "lyfplus-d8549"
+        ]
+      }
+    },
+    "fir-apps-85392": {
+      "hosting": {
+        "adminDashboard": [
+          "fir-apps-85392"
+        ]
+      }
+    }
+  }
+}

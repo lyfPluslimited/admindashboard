@@ -1,0 +1,39 @@
+<div>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">SMS Messages</h1>
+  
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="row-border hover"
+          >
+            <thead>
+              <tr>
+                <th>Phone number</th>
+                <th>Message</th>
+                <th>Date sent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let message of messages">
+                <td>
+                    {{ message.phone }}
+                </td>
+                <td>
+                    {{ message.message }}
+                </td>
+                <td>
+                    {{ message.date_sent }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

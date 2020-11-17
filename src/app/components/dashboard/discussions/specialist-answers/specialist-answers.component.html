@@ -1,0 +1,49 @@
+<div>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Specialist answers</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+              <thead>
+                <tr>
+                  <th>Post title</th>
+                  <th>User who asked</th>
+                  <th>Time</th>
+                  <th>User Comment</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let comment of comments">
+                    <td>
+                        {{ comment.post.title }}
+                    </td>
+                    <td>
+                        {{ comment.user.firstName }} {{ comment.user.lastName }}
+                    </td>
+                    <td>
+                        {{ comment.timePosted }}
+                    </td>
+                    <td>
+                        {{ comment.userComment }}
+                    </td>
+                    <td>
+                        <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                    </td>
+                </tr>
+              </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+

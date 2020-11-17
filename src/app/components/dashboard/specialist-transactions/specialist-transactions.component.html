@@ -1,0 +1,34 @@
+<div>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Doctor Transactions</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Session start</th>
+                  <th>Session end</th>
+                  <th>Session Expired</th>
+                  <th>Consultation type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of transactions">
+                    <td>{{ transaction.order_id }}</td>
+                    <td>{{ transaction.session_start }}</td>
+                    <td>{{ transaction.session_end }}</td>
+                    <td>{{ transaction.session_expired }}</td>
+                    <td>{{ transaction.consultation_type }}</td>
+                  </tr>
+              </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+
+</div>

@@ -1,0 +1,128 @@
+<div>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Selcom Transactions</h1>
+  
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="row-border hover"
+          >
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Specialist</th>
+                <th>Amount</th>
+                <th>Payment Status</th>
+                <th>Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td>{{ order.selcom_id }}</td>
+                <td>{{ order.client.firstName }}  {{ order.client.lastName }}</td>
+                <td>{{ order.doctor.firstName }}  {{ order.doctor.lastName }}</td>
+                <td>{{ order.amount }}</td>
+                <td>
+                  <div *ngIf="order.payment_status == 'COMPLETED'; then allowBlock else notallowBlock"></div>
+                    <ng-template #allowBlock>
+                        <span class="badge badge-success p-2">Completed</span>
+                    </ng-template>
+                    <ng-template #notallowBlock>
+                        <span class="badge badge-danger p-2">Incomplete</span>
+                    </ng-template>
+                </td>
+                <td>
+                  {{ order.order_id | date:'yyyy-MM-dd HH:mm:ss' }}
+                </td>
+                <td>
+                  <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+               ><i class="fas fa-ellipsis-v"></i></a>
+               <div class="dropdown-menu">
+                <a class="dropdown-item" (click)="openViewPayment(viewPayment, order)" style="cursor: pointer">
+                  Show Transaction
+                </a>
+                </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #viewPayment let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">View Transaction</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="selcomForm">
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="">Transaction code</label>
+            <input type="text" class="form-control" formControlName="transid">
+          </div>
+          <div class="form-group col">
+            <label for="">Order ID</label>
+            <input type="text" class="form-control" formControlName="order_id">
+          </div>
+        </div>
+          
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="">Reference</label>
+            <input type="text" class="form-control" formControlName="time">
+          </div>
+          <div class="col form-group">
+            <label for="">Amount</label>
+            <input type="text" class="form-control" formControlName="amount">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="">Client</label>
+            <input type="text" class="form-control" formControlName="user">
+          </div>
+          <div class="col form-group">
+            <label for="">Specialist</label>
+            <input type="text" class="form-control" formControlName="doctor">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="">SIM used</label>
+            <input type="text" class="form-control" formControlName="payment_type">
+          </div>
+          <div class="col form-group">
+            <label for="">Service</label>
+            <input type="text" class="form-control" formControlName="type">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="">Status</label>
+            <input type="text" class="form-control" formControlName="payment_status">
+          </div>
+          <div class="col form-group">
+            <label for="">Phone</label>
+            <input type="text" class="form-control" formControlName="phone">
+          </div>
+        </div>
+            
+      </form>
+    </div>
+  </ng-template>

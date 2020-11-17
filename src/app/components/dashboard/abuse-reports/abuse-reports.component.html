@@ -1,0 +1,32 @@
+<div>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">All Abuse Reports</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+              <thead>
+                <tr>
+                  <th>Reported By</th>
+                  <th>Post Title</th>
+                  <th>Reason</th>
+                  <th>Time Reported</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let report of reports">
+                  <td>{{ report.reporter.firstName }} {{ report.reporter.lastName }}</td>
+                  <td>{{ report.post.title }}</td>
+                  <td>{{ report.message }}</td>
+                  <td>{{ report.timeReported }}</td>
+                </tr>
+              </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+
+</div>
