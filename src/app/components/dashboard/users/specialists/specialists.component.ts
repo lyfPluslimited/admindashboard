@@ -53,7 +53,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
 
   openDoctorDetailsModal(doctorDetails, doctor: User) {
     this.doctorDetailForm.patchValue(doctor);
-    this.doctorImage = doctor.user_image;
+    this.doctorImage = doctor.user_image
     this.selectedSpecialization = doctor.specializationID
     this.selectedHospital = doctor.specilizationAreaID
     this.modalService.open(doctorDetails, { centered: true, size: 'lg' });
