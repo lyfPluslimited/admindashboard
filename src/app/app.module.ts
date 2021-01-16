@@ -35,6 +35,9 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './helpers/auth.guard';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
+import { HomeServicesComponent } from './components/dashboard/home-services/home-services.component';
+import { HomeServicesSingleComponent } from './components/dashboard/home-services/home-services-single/home-services-single.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -59,7 +62,9 @@ import { environment } from 'src/environments/environment';
     SpecialistPostsComponent,
     SpecialistAnswersComponent,
     ArticlesComponent,
-    MessagesComponent
+    MessagesComponent,
+    HomeServicesComponent,
+    HomeServicesSingleComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +79,7 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireModule,
+    NgSelectModule
   ],
   providers: [
     AuthService, AuthGuard

@@ -1,0 +1,128 @@
+<div>
+    <div class="d-flex row justify-content-start mb-3">
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">
+          <div *ngIf="singleHomeService">
+            {{ singleHomeService.service_name }}
+          </div>
+      </h1>
+  
+      <button
+        class="btn btn-primary btn-sm ml-4"
+        (click)="addNewDoctorModal(addNewDoctor)"
+      >
+        Add Doctor
+      </button>
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="row-border hover"
+          >
+            <thead>
+              <tr>
+                <th>Doctor Name</th>
+                <th>Image</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let doctor of doctorsFromService">
+                    <td>
+                        {{ doctor.firstName }} {{ doctor.lastName }}
+                    </td>
+                    <td>
+                        <img src="{{ doctor.user_image }}" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <a
+                            class="nav-link"
+                            data-toggle="dropdown"
+                            role="button"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a
+                            class="dropdown-item"
+                            style="cursor: pointer"
+                            (click)="dDoctorModal(deleteDoctorModal, doctor)"
+                          >
+                            Delete
+                          </a>
+                          </div>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- New Doctor Modal -->
+<ng-template #addNewDoctor let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">
+          New Doctor
+      </h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+          <div class="form-group">
+              <label>Doctor</label>
+              <ng-select [(ngModel)]="selectedDoctor" class="form-control" >
+                <ng-option placeholder="Select Doctor" *ngFor="let doctor of doctors" [value]="doctor.userID">
+                  {{doctor.firstName}} {{doctor.lastName}}
+                </ng-option>
+             </ng-select>
+          </div>
+          <br>
+          <div class="form-group">
+            <button class="btn btn-success" (click)="addDoctor(selectedDoctor)">
+              Add doctor
+            </button>
+          </div>
+    </div>
+  </ng-template>
+
+    <!-- Delete doctor Modal -->
+<ng-template #deleteDoctorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+        Delete Doctor
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+        Are you sure you want to delete <b>{{doctor.firstName}} {{doctor.lastName}}</b> ?
+        <br><br>
+        <button class="btn btn-danger" (click)="deleteDoctor(doctor.userID)">
+          Delete
+        </button>
+  </div>
+</ng-template>
+  

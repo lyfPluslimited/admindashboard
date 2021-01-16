@@ -19,6 +19,8 @@ import { SpecialistAnswersComponent } from './components/dashboard/discussions/s
 import { ArticlesComponent } from './components/dashboard/articles/articles.component';
 import { MessagesComponent } from './components/dashboard/messages/messages.component';
 import { AuthGuard } from './helpers/auth.guard';
+import { HomeServicesComponent } from './components/dashboard/home-services/home-services.component';
+import { HomeServicesSingleComponent } from './components/dashboard/home-services/home-services-single/home-services-single.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -94,6 +96,14 @@ const routes: Routes = [
       {
         path: 'abuse',
         component: AbuseReportsComponent
+      },
+      {
+        path: 'services',
+        component: HomeServicesComponent
+      },
+      {
+        path: 'service/:id',
+        component: HomeServicesSingleComponent
       },
 
       //Payment

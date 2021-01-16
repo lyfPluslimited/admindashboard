@@ -1,0 +1,137 @@
+<div>
+  <div class="d-flex row justify-content-start mb-3">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Home Services</h1>
+
+    <button class="btn btn-primary btn-sm ml-4" (click)="openAddServiceModal(addService)">
+      Add Service
+    </button>
+
+    <button class="btn btn-info btn-sm ml-4" >
+      Patient Requests
+    </button>
+  </div>
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+          <thead>
+            <tr>
+              <th>Service Name</th>
+              <th>Image</th>
+              <th>Time posted</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let service of services">
+              <td>
+                {{ service.service_name }}
+              </td>
+              <td>
+                <img src="{{ service.service_image }}" style="max-width: 100px" />
+              </td>
+              <td>
+                {{ service.timeStamp }}
+              </td>
+              <td>
+                <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" style="cursor: pointer" [routerLink]="[
+                      '/dashboard/service',
+                      service.home_services_id
+                    ]">
+                    View
+                  </a>
+                  <a class="dropdown-item" style="cursor: pointer" (click)="openEditModal(editService, service)">
+                    Edit
+                  </a>
+                  <a class="dropdown-item" style="cursor: pointer" (click)="openDeleteModal(deleteService, service)"> Delete </a>
+                </div>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #editService let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Service</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editServiceForm" (ngSubmit)="edit(singleService.home_services_id)">
+      <div class="form-group">
+        <label for="">Service Name</label>
+        <input type="text" class="form-control" formControlName="name" />
+      </div>
+      <div class="form-group">
+        <label for="">Service Image</label>
+        <input type="file" class="form-control" (change)="onFileSelect($event)" />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-warning" type="submit">
+          Update
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #deleteService let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Service</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    Are you sure you want to delete <b>{{ singleService.service_name }}</b> ?
+
+    <br><br>
+    <button class="btn btn-danger" (click)="deleteService(singleService.home_services_id)">
+      Delete
+    </button>
+  </div>
+
+</ng-template>
+
+
+<ng-template #addService let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Service</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newServiceForm" (ngSubmit)="addService()">
+      <div class="form-group">
+        <label for="">Service Name</label>
+        <input type="text" class="form-control" formControlName="name" />
+      </div>
+      <div class="form-group">
+        <label for="">Service Image</label>
+        <input type="file" class="form-control" (change)="onFileSelect($event)" />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-success" type="submit">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
