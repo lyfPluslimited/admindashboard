@@ -81,7 +81,7 @@ export class HomeServicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  addService() {
+  addHomeService() {
     const formData = new FormData();
 
     formData.append('name', this.newServiceForm.get('name').value);

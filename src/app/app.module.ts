@@ -38,6 +38,8 @@ import { environment } from 'src/environments/environment';
 import { HomeServicesComponent } from './components/dashboard/home-services/home-services.component';
 import { HomeServicesSingleComponent } from './components/dashboard/home-services/home-services-single/home-services-single.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ConfirmedVisitsComponent } from './components/dashboard/home-services/confirmed-visits/confirmed-visits.component';
+import { SubscriptionComponent } from './components/dashboard/users/subscription/subscription.component';
 
 
 @NgModule({
@@ -64,7 +66,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ArticlesComponent,
     MessagesComponent,
     HomeServicesComponent,
-    HomeServicesSingleComponent
+    HomeServicesSingleComponent,
+    ConfirmedVisitsComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,

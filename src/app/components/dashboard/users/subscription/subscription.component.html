@@ -1,0 +1,41 @@
+<div>
+  <div class="d-flex row justify-content-between mb-4">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Referral Clients</h1>
+  </div>
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="row-border hover"
+        >
+          <thead>
+            <tr>
+              <th>Client name</th>
+              <th>Doctor name</th>
+              <td>Date of referral</td>
+              <td>Date of joining</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of subscribersList">
+              <td>{{ s.clientfname }} {{ s.clientlname }}</td>
+              <td>{{ s.doctorfname }} {{ s.doctorlname }}</td>
+              <td>
+                {{ s.created_at }}
+              </td>
+              <td>
+                {{ s.timeSt }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

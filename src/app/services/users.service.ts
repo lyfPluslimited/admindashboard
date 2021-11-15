@@ -47,4 +47,8 @@ export class UsersService {
   public getDoctorTransactions(id): Observable<DoctorSessions[]>{
     return this.http.get<DoctorSessions[]>(`${this.config.REST_API_URL}/admin/getDoctorPayments/${id}`);
   }
+
+  public getSubscriptions(): Observable<[]>{
+    return this.http.get<[]>(`${this.config.REST_API_URL}/subscription`);
+  }
 }

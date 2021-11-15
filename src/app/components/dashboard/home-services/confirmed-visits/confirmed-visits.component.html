@@ -1,0 +1,39 @@
+<div>
+    <div class="d-flex row justify-content-start mb-3">
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Confirmed Visitation Requests</h1>
+    </div>
+  
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="row-border hover"
+          >
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Service</th>
+                <th>Phone</th>
+                <th>Date of visitation</th>
+                <th>Date of request sent</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let visit of visits">
+                    <td>{{ visit.client.firstName }} {{ visit.client.lastName }}</td>
+                    <td>{{ visit.service.service_name }}</td>
+                    <td>{{ visit.phone }}</td>
+                    <td>{{ visit.visitation_date }}</td>
+                    <td>{{ visit.created_at | date:'dd/MM/yy h:mm a' }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

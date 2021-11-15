@@ -7,7 +7,7 @@
       Add Service
     </button>
 
-    <button class="btn btn-info btn-sm ml-4" >
+    <button class="btn btn-info btn-sm ml-4" [routerLink]="['/dashboard/visits']">
       Patient Requests
     </button>
   </div>
@@ -34,7 +34,7 @@
                 <img src="{{ service.service_image }}" style="max-width: 100px" />
               </td>
               <td>
-                {{ service.timeStamp }}
+                {{ service.timeStamp | date:'dd/MM/yy h:mm a' }}
               </td>
               <td>
                 <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -117,7 +117,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="newServiceForm" (ngSubmit)="addService()">
+    <form [formGroup]="newServiceForm" (ngSubmit)="addHomeService()">
       <div class="form-group">
         <label for="">Service Name</label>
         <input type="text" class="form-control" formControlName="name" />

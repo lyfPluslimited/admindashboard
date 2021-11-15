@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HomeService } from '../models/home-service.model';
+import { ConfirmedVisit, HomeService } from '../models/home-service.model';
 import { User } from '../models/user.model';
 import { ConfigService } from './config.service';
 
@@ -38,5 +38,9 @@ export class HomeServicesService {
 
   public deleteDoctorFromService(id){
     return this.http.delete(`${this.config.REST_API_URL}/services/delete/doctor/${id}`);
+  }
+
+  public getConfirmedVisits(): Observable<ConfirmedVisit[]>{
+    return this.http.get<ConfirmedVisit[]>(`${this.config.REST_API_URL}/services/visits`);
   }
 }

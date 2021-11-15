@@ -145,6 +145,9 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     userNhifNumber: new FormControl({ value: '', disabled: true }),
     specializationID: new FormControl({ value: '', disabled: true }),
     specializationAreaID: new FormControl({ value: '', disabled: true }),
+    call_payment_id: new FormControl({ value: '', disabled: true }),
+    consultation_payment_id: new FormControl({ value: '', disabled: true }),
+    subscription_payment_id: new FormControl({ value: '', disabled: true }),
   });
 
   updateDoctorForm = new FormGroup({

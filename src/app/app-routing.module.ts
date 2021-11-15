@@ -21,6 +21,8 @@ import { MessagesComponent } from './components/dashboard/messages/messages.comp
 import { AuthGuard } from './helpers/auth.guard';
 import { HomeServicesComponent } from './components/dashboard/home-services/home-services.component';
 import { HomeServicesSingleComponent } from './components/dashboard/home-services/home-services-single/home-services-single.component';
+import { ConfirmedVisitsComponent } from './components/dashboard/home-services/confirmed-visits/confirmed-visits.component';
+import { SubscriptionComponent } from './components/dashboard/users/subscription/subscription.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -72,7 +74,10 @@ const routes: Routes = [
         path: 'specialists',
         component: SpecialistsComponent,
       },
-
+      {
+        path: 'referrals',
+        component: SubscriptionComponent
+      },
       {
         path: 'transactions/:id',
         component: SpecialistTransactionsComponent
@@ -100,6 +105,10 @@ const routes: Routes = [
       {
         path: 'services',
         component: HomeServicesComponent
+      },
+      {
+        path: 'visits',
+        component: ConfirmedVisitsComponent
       },
       {
         path: 'service/:id',
