@@ -11,7 +11,7 @@ export class IncentiveService {
   constructor(private config: ConfigService, private http: HttpClient) { }
 
   public updateIncentiveStatus(id) {
-      return this.http.patch(`${this.config.REST_API_URL}/incentive/${id}`,{})
+      return this.http.get(`${this.config.REST_API_URL}/incentive/${id}`)
   }
 
   public displayIncentiveDoctors(): Observable<[]>{
@@ -20,6 +20,10 @@ export class IncentiveService {
 
   public setKpiPricesForDoctor(data, id){
     return this.http.post(`${this.config.REST_API_URL}/storeKpiPrices/${id}`, data)
+  }
+
+  public getKpisDoneInTracking(doctorId){
+    return this.http.get(`${this.config.REST_API_URL}/getDoctorTrackingKpis/${doctorId}`)
   }
 
 }

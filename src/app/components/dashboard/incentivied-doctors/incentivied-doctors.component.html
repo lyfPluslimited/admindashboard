@@ -26,7 +26,14 @@
               <td>{{ doctor.firstName }} {{ doctor.lastName }}</td>
               <td>{{ checkLengthOfTracking(doctor.tracking) }} TZS</td>
               <td>
-                <a [routerLink]="['/dashboard/incentive-list', doctor.userID]" class="btn btn-primary">View details</a>
+                <a
+                  [routerLink]="['/dashboard/incentive-list', doctor.userID]"
+                  class="btn btn-primary"
+                  >View KPIs</a
+                >
+                <a href="#" *ngIf="checkLengthOfTracking(doctor.tracking) > 0" class="btn btn-success ml-3">
+                  Make Payment
+                </a>
               </td>
             </tr>
           </tbody>

@@ -39,6 +39,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
   hospitals: Hospital[] = [];
   consultationPeriod;
   doctorImage;
+  incentive:boolean
 
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
@@ -52,11 +53,11 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private hospitalService: HospitalService,
     private incentiveService: IncentiveService,
-    private qrService :QrcodeService
+    private qrService :QrcodeService,
   ) {}
 
   changeIncentivesModal(doctorIncentive, doctor: User) {
-    this.doctorDetailForm.patchValue(doctor)
+    this.incentive = doctor.incentive_doctor
     this.doctorID = doctor.userID
     this.modalService.open(doctorIncentive, { centered: true })
   }
@@ -277,7 +278,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
 
   openQRModal(qrModal, doctor: User){
     this.doctorImage = `http://167.172.12.18/app/public${doctor.qrcode}`
-    console.log(this.doctorImage) 
+    this.doctorObj = doctor
     this.modalService.open(qrModal, { centered: true })
   }
 

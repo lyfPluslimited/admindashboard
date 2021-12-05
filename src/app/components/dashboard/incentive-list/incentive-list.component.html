@@ -1,1 +1,48 @@
-<p>incentive-list works!</p>
+<div>
+    <div class="d-flex row justify-content-start mb-4">
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">KPIs done</h1>
+    </div>
+  
+    <!-- Incentive doctors datatables -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="row-border hover"
+          >
+            <thead>
+              <tr>
+                <th>Amount collected</th>
+                <th>Activities done</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let k of tracking">
+                <td>
+                    {{ k.amount }}
+                </td>
+                <td>
+                    {{ k.incentives_done.length }}
+                </td>
+                <td>
+                    {{ convertDateTimetoNewFormat(k.created_at) }}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-primary">
+                        View activities
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

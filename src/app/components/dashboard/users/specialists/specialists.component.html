@@ -167,7 +167,7 @@
 <ng-template #qrModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      Doctor QR code
+      Dr. {{doctorObj.firstName}} {{ doctorObj.lastName }} QR code
     </h4>
     <button
       type="button"
@@ -377,14 +377,14 @@
     This doctor is currently part of the incentive scheme. Are you sure you want to change Doctor Incentive Status?
     <br /><br />
     <div
-      *ngIf="incentive_doctor; then unincentiveDoc; else incentiveDoc"
+      *ngIf="incentive; then unincentiveDoc; else incentiveDoc"
     ></div>
-    <ng-template #incentiveDoc>
+    <ng-template #unincentiveDoc>
       <button class="btn btn-danger" (click)="changeIncentive(doctorID)">
         Remove doctor from incentive scheme
       </button>
     </ng-template>
-    <ng-template #unincentiveDoc>
+    <ng-template #incentiveDoc>
       <button class="btn btn-success" (click)="changeIncentive(doctorID)">
         Add doctor to incentive scheme?
       </button>

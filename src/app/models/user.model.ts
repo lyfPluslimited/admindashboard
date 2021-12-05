@@ -41,6 +41,7 @@ export class User {
     ip_address: string;
     deleted: boolean;
     qrcode: string;
+    incentive_doctor: boolean
 }
 
 export class UserAuth {
