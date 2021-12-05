@@ -40,6 +40,7 @@ export class User {
     patient_no: string;
     ip_address: string;
     deleted: boolean;
+    qrcode: string;
 }
 
 export class UserAuth {

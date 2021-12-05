@@ -12,6 +12,8 @@ import { SpecializationService } from 'src/app/services/specialization.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { Hospital } from 'src/app/models/hospital.model';
 import { HospitalService } from 'src/app/services/hospital.service';
+import { IncentiveService } from 'src/app/services/incentive.service';
+import { QrcodeService } from 'src/app/services/qrcode.service';
 
 @Component({
   selector: 'app-specialists',
@@ -48,14 +50,27 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     private spinner: NgxSpinnerService,
     private specializationService: SpecializationService,
     private configService: ConfigService,
-    private hospitalService: HospitalService
+    private hospitalService: HospitalService,
+    private incentiveService: IncentiveService,
+    private qrService :QrcodeService
   ) {}
+
+  changeIncentivesModal(doctorIncentive, doctor: User) {
+    this.doctorDetailForm.patchValue(doctor)
+    this.doctorID = doctor.userID
+    this.modalService.open(doctorIncentive, { centered: true })
+  }
+
+  openIncentivePricesModal(incentivePrices,doctor: User){
+    this.doctorID = doctor.userID
+    this.modalService.open(incentivePrices, { centered: true })
+  }
 
   openDoctorDetailsModal(doctorDetails, doctor: User) {
     this.doctorDetailForm.patchValue(doctor);
-    this.doctorImage = doctor.user_image
-    this.selectedSpecialization = doctor.specializationID
-    this.selectedHospital = doctor.specilizationAreaID
+    this.doctorImage = doctor.user_image;
+    this.selectedSpecialization = doctor.specializationID;
+    this.selectedHospital = doctor.specilizationAreaID;
     this.modalService.open(doctorDetails, { centered: true, size: 'lg' });
   }
 
@@ -148,6 +163,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     call_payment_id: new FormControl({ value: '', disabled: true }),
     consultation_payment_id: new FormControl({ value: '', disabled: true }),
     subscription_payment_id: new FormControl({ value: '', disabled: true }),
+    incentive_doctor: new FormControl({ value: '', disabled: true }),
   });
 
   updateDoctorForm = new FormGroup({
@@ -158,6 +174,14 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     email: new FormControl('', [Validators.required, Validators.email]),
     specializationID: new FormControl(''),
   });
+
+  kpiPricesForm = new FormGroup({
+    invitationPrice: new FormControl('2000', Validators.required),
+    successfulSignUpPrice: new FormControl('5000', Validators.required),
+    onlineTimePrice: new FormControl('5000', Validators.required),
+    forumPostPrice: new FormControl('3000', Validators.required),
+    qnAnsPrice: new FormControl('3000', Validators.required)
+  })
 
   changeFeeForm = new FormGroup({
     userID: new FormControl('', Validators.required),
@@ -218,6 +242,45 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
       });
   }
 
+  setIncentivePrices(){
+    this.modalService.dismissAll()
+    this.spinner.show()
+    console.log(this.kpiPricesForm.value)
+    this.incentiveService.setKpiPricesForDoctor(this.kpiPricesForm.value, this.doctorID)
+      .subscribe(res => {
+        console.log(res)
+        this.kpiPricesForm.reset()
+        this.spinner.hide()
+        this.ngOnInit()
+      })
+  }
+
+  changeIncentive(id){
+    this.modalService.dismissAll()
+    this.spinner.show()
+    this.incentiveService.updateIncentiveStatus(id).subscribe(res => {
+      console.log(res)
+      this.spinner.hide()
+      this.ngOnInit()
+    })
+  }
+
+  generateQRCode(id){
+    this.modalService.dismissAll()
+    this.spinner.show()
+    this.qrService.generateQR(id).subscribe(res => {
+      console.log(res)
+      this.spinner.hide()
+      this.ngOnInit()
+    })
+  }
+
+  openQRModal(qrModal, doctor: User){
+    this.doctorImage = `http://167.172.12.18/app/public${doctor.qrcode}`
+    console.log(this.doctorImage) 
+    this.modalService.open(qrModal, { centered: true })
+  }
+
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -228,9 +291,9 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
       this.consultationPeriod = res;
     });
 
-    this.hospitalService.getHospitals().subscribe(res => {
-      this.hospitals = res
-    })
+    this.hospitalService.getHospitals().subscribe((res) => {
+      this.hospitals = res;
+    });
 
     this.specializationService.getSpecializations().subscribe((res) => {
       this.specialities = res;

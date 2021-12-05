@@ -23,6 +23,8 @@ import { HomeServicesComponent } from './components/dashboard/home-services/home
 import { HomeServicesSingleComponent } from './components/dashboard/home-services/home-services-single/home-services-single.component';
 import { ConfirmedVisitsComponent } from './components/dashboard/home-services/confirmed-visits/confirmed-visits.component';
 import { SubscriptionComponent } from './components/dashboard/users/subscription/subscription.component';
+import { IncentiviedDoctorsComponent } from './components/dashboard/incentivied-doctors/incentivied-doctors.component';
+import { IncentiveListComponent } from './components/dashboard/incentive-list/incentive-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -65,6 +67,17 @@ const routes: Routes = [
         component: ArticlesComponent
       },
 
+      //incentive
+      {
+        path: 'incentive-doctors',
+        component: IncentiviedDoctorsComponent
+      },
+
+      {
+        path: 'incentive-list/:id',
+        component: IncentiveListComponent
+      },
+      
       //Users
       {
         path: 'clients',

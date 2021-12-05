@@ -40,6 +40,8 @@ import { HomeServicesSingleComponent } from './components/dashboard/home-service
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfirmedVisitsComponent } from './components/dashboard/home-services/confirmed-visits/confirmed-visits.component';
 import { SubscriptionComponent } from './components/dashboard/users/subscription/subscription.component';
+import { IncentiviedDoctorsComponent } from './components/dashboard/incentivied-doctors/incentivied-doctors.component';
+import { IncentiveListComponent } from './components/dashboard/incentive-list/incentive-list.component';
 
 
 @NgModule({
@@ -68,7 +70,9 @@ import { SubscriptionComponent } from './components/dashboard/users/subscription
     HomeServicesComponent,
     HomeServicesSingleComponent,
     ConfirmedVisitsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    IncentiviedDoctorsComponent,
+    IncentiveListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,37 @@
+<div>
+  <div class="d-flex row justify-content-start mb-4">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Incentivied doctors</h1>
+  </div>
+
+  <!-- Incentive doctors datatables -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="row-border hover"
+        >
+          <thead>
+            <tr>
+              <th>Doctor Name</th>
+              <th>Amount Owed</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doctor of doctors">
+              <td>{{ doctor.firstName }} {{ doctor.lastName }}</td>
+              <td>{{ checkLengthOfTracking(doctor.tracking) }} TZS</td>
+              <td>
+                <a [routerLink]="['/dashboard/incentive-list', doctor.userID]" class="btn btn-primary">View details</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

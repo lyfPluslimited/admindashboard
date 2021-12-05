@@ -1,14 +1,18 @@
 <div>
-  <div class="d-flex row justify-content-between mb-4">
+  <div class="d-flex row justify-content-start mb-4">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Specialists</h1>
 
     <button
-      class="btn btn-primary"
+      class="btn btn-primary ml-4"
       (click)="openConsultationModal(consultationModal)"
     >
       Consultation period
     </button>
+
+    <a class="btn btn-info ml-4" [routerLink]="['/dashboard/incentive-doctors']">
+      Doctor Incentives
+    </a>
   </div>
 
   <!-- DataTales Example -->
@@ -124,14 +128,31 @@
                     <i class="fa fa-arrows-h"></i>&nbsp; Change fee
                   </a>
 
-                  <a
+                  <!-- <a
                     class="dropdown-item"
                     style="cursor: pointer"
                     [routerLink]="['/dashboard/transactions', doctor.userID]"
                   >
                     <i class="fa fa-arrows-h"></i>&nbsp; Show Doctor
                     transactions
+                  </a> -->
+                  <a class="dropdown-item" (click)="changeIncentivesModal(doctorIncentive, doctor)" style="cursor: pointer;">
+                    Doctor Incentives
                   </a>
+                  <a class="dropdown-item" (click)="openIncentivePricesModal(incentivePrices, doctor)" style="cursor: pointer;">
+                    Set incentive prices
+                  </a>
+                  <ng-template *ngIf="doctor.qrcode != null; then showQrBtn; else dontshowQrBtn"></ng-template>
+                  <ng-template #showQrBtn>
+                    <a class="dropdown-item" (click)="openQRModal(qrModal,doctor)" style="cursor: pointer;">
+                      Show QR Code
+                    </a>
+                  </ng-template>
+                  <ng-template #dontshowQrBtn>
+                    <a class="dropdown-item" (click)="generateQRCode(doctor.userID)" style="cursor: pointer;">
+                      Generate QR code
+                    </a>
+                  </ng-template>
                 </div>
               </td>
             </tr>
@@ -141,6 +162,28 @@
     </div>
   </div>
 </div>
+
+<!-- QR CODE modal -->
+<ng-template #qrModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Doctor QR code
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+      <div class="text-center">
+        <img src="{{doctorImage}}" alt="..." class="my-2">
+      </div>
+  </div>
+</ng-template>
 
 <!-- Show Doctor Details modal -->
 <ng-template #doctorDetails let-modal>
@@ -312,6 +355,113 @@
         ></textarea>
       </div>
     </form>
+  </div>
+</ng-template>
+
+<!-- Doctor Incentive change modal -->
+<ng-template #doctorIncentive let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Doctor Incentive Status
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    This doctor is currently part of the incentive scheme. Are you sure you want to change Doctor Incentive Status?
+    <br /><br />
+    <div
+      *ngIf="incentive_doctor; then unincentiveDoc; else incentiveDoc"
+    ></div>
+    <ng-template #incentiveDoc>
+      <button class="btn btn-danger" (click)="changeIncentive(doctorID)">
+        Remove doctor from incentive scheme
+      </button>
+    </ng-template>
+    <ng-template #unincentiveDoc>
+      <button class="btn btn-success" (click)="changeIncentive(doctorID)">
+        Add doctor to incentive scheme?
+      </button>
+    </ng-template>
+    <br />
+  </div>
+</ng-template>
+
+<ng-template #incentivePrices let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Doctor Incentive Prices
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+      <form [formGroup]="kpiPricesForm" (ngSubmit)="setIncentivePrices()">
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Patient invitation price
+          </label>
+          <div class="col-md-6">
+            <input formControlName="invitationPrice" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Successful signup price
+          </label>
+          <div class="col-md-6">
+            <input formControlName="successfulSignUpPrice" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Online time price
+          </label>
+          <div class="col-md-6">
+            <input type="text" formControlName="onlineTimePrice" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Forum post price
+          </label>
+          <div class="col-md-6">
+            <input type="text" formControlName="forumPostPrice" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Answered question price
+          </label>
+          <div class="col-md-6">
+            <input type="text" formControlName="qnAnsPrice" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-success">
+            Submit
+          </button>
+        </div>
+        
+      </form>
   </div>
 </ng-template>
 
