@@ -1,35 +1,45 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { IncentiveService } from 'src/app/services/incentive.service';
 
 @Component({
   selector: 'app-incentive-list',
   templateUrl: './incentive-list.component.html',
-  styleUrls: ['./incentive-list.component.css']
+  styleUrls: ['./incentive-list.component.css'],
 })
 export class IncentiveListComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-   // We use this trigger because fetching the list of persons can be quite long,
+  // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
   dtTrigger: Subject<any> = new Subject();
 
-  tracking:[]
+  tracking: [];
+  incentives: [];
 
   constructor(
-    private spinner: NgxSpinnerService,
     private incentive: IncentiveService,
     private route: ActivatedRoute,
-  ) { }
+    private modal: NgbModal
+  ) {}
 
-  convertDateTimetoNewFormat(date){
-    return moment(date).format('DD/MM/YY')
+  convertDateTimetoNewFormat(date) {
+    return moment(date).format('DD/MM/YY');
+  }
+
+  convertDateTimeToTime(date) {
+    return moment(date).format('LT');
+  }
+
+  openIncentiveList(incentiveList, dataList: []) {
+    this.incentives = dataList;
+    this.modal.open(incentiveList, { centered: true, size: 'lg' });
   }
 
   ngOnInit(): void {
@@ -41,9 +51,8 @@ export class IncentiveListComponent implements OnInit, OnDestroy {
     //get id from URL
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.incentive.getKpisDoneInTracking(id).subscribe((res:[]) => {
-
-      this.tracking = res
+    this.incentive.getKpisDoneInTracking(id).subscribe((res: []) => {
+      this.tracking = res;
 
       if (this.isDtInitialized) {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -54,13 +63,10 @@ export class IncentiveListComponent implements OnInit, OnDestroy {
         this.isDtInitialized = true;
         this.dtTrigger.next();
       }
-
-    })
-
+    });
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe()
+    this.dtTrigger.unsubscribe();
   }
-
 }

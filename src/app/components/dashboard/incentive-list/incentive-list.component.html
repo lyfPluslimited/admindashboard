@@ -34,7 +34,7 @@
                     {{ convertDateTimetoNewFormat(k.created_at) }}
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-primary">
+                    <button (click)="openIncentiveList(incentiveList, k.incentives_done)" class="btn btn-sm btn-primary">
                         View activities
                     </button>
                 </td>
@@ -46,3 +46,37 @@
     </div>
   </div>
   
+  <!-- Incentive List modal -->
+<ng-template #incentiveList let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">List of incentives done</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">KPI name</th>
+          <th scope="col">Date done</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let x of incentives">
+          <td>
+            {{ x.kpi.kpi_name }}
+          </td>
+          <td>
+            {{ convertDateTimeToTime(x.created_at) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>

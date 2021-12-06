@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
@@ -20,11 +21,18 @@ export class IncentiveGeneralComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
 
   tracking:[]
+  incentives:[]
 
   constructor(
     private incentive: IncentiveService,
     private route: ActivatedRoute,
+    private modal: NgbModal
   ) { }
+
+  openIncentiveList(incentiveList, dataList: []){
+    this.incentives = dataList
+    this.modal.open(incentiveList, { centered:true, size: 'lg' })
+  }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -51,6 +59,10 @@ export class IncentiveGeneralComponent implements OnInit, OnDestroy {
       }
 
     })
+  }
+
+  convertDateTimeToTime(date){
+    return moment(date).format('LT')
   }
 
   convertDateTimetoNewFormat(date){
