@@ -42,6 +42,7 @@ import { ConfirmedVisitsComponent } from './components/dashboard/home-services/c
 import { SubscriptionComponent } from './components/dashboard/users/subscription/subscription.component';
 import { IncentiviedDoctorsComponent } from './components/dashboard/incentivied-doctors/incentivied-doctors.component';
 import { IncentiveListComponent } from './components/dashboard/incentive-list/incentive-list.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { IncentiveListComponent } from './components/dashboard/incentive-list/in
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     DataTablesModule,
@@ -87,7 +89,8 @@ import { IncentiveListComponent } from './components/dashboard/incentive-list/in
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireModule,
-    NgSelectModule
+    NgSelectModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     AuthService, AuthGuard

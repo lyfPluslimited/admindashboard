@@ -28,11 +28,15 @@
               <td>
                 <a
                   [routerLink]="['/dashboard/incentive-list', doctor.userID]"
-                  class="btn btn-primary"
-                  >View KPIs</a
-                >
-                <a href="#" *ngIf="checkLengthOfTracking(doctor.tracking) > 0" class="btn btn-success ml-3">
+                  class="btn btn-primary btn-sm"
+                  *ngIf="checkLengthOfTracking(doctor.tracking) > 0"
+                  >View Unpaid KPIs
+                  </a>
+                <button (click)="makePayment(doctor.userID)" *ngIf="checkLengthOfTracking(doctor.tracking) > 0" class="btn btn-sm btn-success ml-3">
                   Make Payment
+                </button>
+                <a href="#" class="btn btn-dark btn-sm ml-2">
+                  View overall KPIs
                 </a>
               </td>
             </tr>

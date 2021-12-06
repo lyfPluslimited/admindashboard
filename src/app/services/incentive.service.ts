@@ -26,4 +26,8 @@ export class IncentiveService {
     return this.http.get(`${this.config.REST_API_URL}/getDoctorTrackingKpis/${doctorId}`)
   }
 
+  public makePayment(doctorId){
+    return this.http.get(`${this.config.REST_API_URL}/incentivePayment/${doctorId}`)
+  }
+
 }
