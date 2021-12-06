@@ -43,6 +43,7 @@ import { SubscriptionComponent } from './components/dashboard/users/subscription
 import { IncentiviedDoctorsComponent } from './components/dashboard/incentivied-doctors/incentivied-doctors.component';
 import { IncentiveListComponent } from './components/dashboard/incentive-list/incentive-list.component';
 import { ToastrModule } from 'ngx-toastr';
+import { IncentiveGeneralComponent } from './components/dashboard/incentive-general/incentive-general.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { ToastrModule } from 'ngx-toastr';
     ConfirmedVisitsComponent,
     SubscriptionComponent,
     IncentiviedDoctorsComponent,
-    IncentiveListComponent
+    IncentiveListComponent,
+    IncentiveGeneralComponent
   ],
   imports: [
     BrowserModule,

@@ -35,7 +35,7 @@
                 <button (click)="makePayment(doctor.userID)" *ngIf="checkLengthOfTracking(doctor.tracking) > 0" class="btn btn-sm btn-success ml-3">
                   Make Payment
                 </button>
-                <a href="#" class="btn btn-dark btn-sm ml-2">
+                <a [routerLink]="['/dashboard/incentive-general', doctor.userID]" class="btn btn-dark btn-sm ml-2">
                   View overall KPIs
                 </a>
               </td>

@@ -25,6 +25,7 @@ import { ConfirmedVisitsComponent } from './components/dashboard/home-services/c
 import { SubscriptionComponent } from './components/dashboard/users/subscription/subscription.component';
 import { IncentiviedDoctorsComponent } from './components/dashboard/incentivied-doctors/incentivied-doctors.component';
 import { IncentiveListComponent } from './components/dashboard/incentive-list/incentive-list.component';
+import { IncentiveGeneralComponent } from './components/dashboard/incentive-general/incentive-general.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -76,6 +77,11 @@ const routes: Routes = [
       {
         path: 'incentive-list/:id',
         component: IncentiveListComponent
+      },
+
+      {
+        path: 'incentive-general/:id',
+        component: IncentiveGeneralComponent
       },
       
       //Users

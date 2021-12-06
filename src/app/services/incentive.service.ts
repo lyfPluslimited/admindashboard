@@ -30,4 +30,8 @@ export class IncentiveService {
     return this.http.get(`${this.config.REST_API_URL}/incentivePayment/${doctorId}`)
   }
 
+  public getGeneralTracking(doctorId){
+    return this.http.get(`${this.config.REST_API_URL}/getGeneralTrackings/${doctorId}`)
+  }
+
 }
