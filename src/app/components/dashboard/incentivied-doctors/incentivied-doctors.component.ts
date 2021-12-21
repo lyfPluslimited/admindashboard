@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
-import { data } from 'jquery';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -21,14 +22,98 @@ export class IncentiviedDoctorsComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
 
   doctors: [] = [];
+  doctorId;
 
   constructor(
     private incentiveService: IncentiveService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modal: NgbModal
     ) {}
 
+    openKpiListModal(kpiListModal){
+      this.incentiveService.getKpis().subscribe((res:any) => {
+        var kpi1 = res.find((x:any)=> x.id == 1).default_unit_quantity
+        var kpi2 = res.find((x:any) => x.id == 2).default_unit_quantity
+        var kpi3 = res.find((x:any) => x.id == 3).default_unit_quantity
+        var kpi4 = res.find((x:any) => x.id == 4).default_unit_quantity
+        var kpi5 = res.find((x:any) => x.id == 5).default_unit_quantity
+
+        this.kpiQuantityForm.patchValue({
+          invitationqnty: kpi1,
+          signupqnty: kpi2,
+          onlineTimeqnty: kpi3,
+          forumqnty: kpi4,
+          qnqnty: kpi5
+        })
+
+        this.modal.open(kpiListModal, {centered:true})
+
+      })
+    }
+
+    openKpiPriceModal(doctor, priceModal){
+
+      this.doctorId = doctor.userID
+      console.log(this.doctorId)
+      this.incentiveService.getDoctorKpiPrices(doctor.userID).subscribe((res:any) => {
+        console.log(res)
+        var kpi1 = res.find((x:any)=> x.kpi_id == 1).unit_amount
+        var kpi2 = res.find((x:any) => x.kpi_id == 2).unit_amount
+        var kpi3 = res.find((x:any) => x.kpi_id == 3).unit_amount
+        var kpi4 = res.find((x:any) => x.kpi_id == 4).unit_amount
+        var kpi5 = res.find((x:any) => x.kpi_id == 5).unit_amount
+
+        this.kpiPriceForm.patchValue({
+          invitationPrice: kpi1,
+          successfulSignUpPrice: kpi2,
+          onlineTimePrice: kpi3,
+          forumPostPrice: kpi4,
+          qnAnsPrice: kpi5
+        })
+
+        this.modal.open(priceModal, { centered: true })
+      })
+    }
+
+    kpiPriceForm = new FormGroup({
+      invitationPrice: new FormControl(''),
+      successfulSignUpPrice: new FormControl(''),
+      onlineTimePrice: new FormControl(''),
+      forumPostPrice: new FormControl(''),
+      qnAnsPrice: new FormControl('')
+    })
+
+    kpiQuantityForm = new FormGroup({
+      invitationqnty: new FormControl(''),
+      signupqnty: new FormControl(''),
+      onlineTimeqnty: new FormControl(''),
+      forumqnty: new FormControl(''),
+      qnqnty: new FormControl('')
+    })
+
+    setIncentivePrices(){
+      this.modal.dismissAll()
+      this.spinner.show()
+      this.incentiveService.udpateKpiPricesForDoctor(this.kpiPriceForm.value, this.doctorId).subscribe(res => {
+        this.spinner.hide()
+        this.toastr.success(res.toString())
+        this.ngOnInit()
+      })
+    }
+
+    updateKpiQuantity(){
+      this.modal.dismissAll()
+      this.spinner.show()
+      this.incentiveService.updateKpiQuantities(this.kpiQuantityForm.value).subscribe(res => {
+        this.spinner.hide()
+        this.toastr.success(res.toString())
+        this.ngOnInit()
+      })
+    }
+
   ngOnInit(): void {
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,

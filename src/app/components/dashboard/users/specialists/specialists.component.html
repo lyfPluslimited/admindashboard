@@ -139,9 +139,9 @@
                   <a class="dropdown-item" (click)="changeIncentivesModal(doctorIncentive, doctor)" style="cursor: pointer;">
                     Doctor Incentives
                   </a>
-                  <a class="dropdown-item" (click)="openIncentivePricesModal(incentivePrices, doctor)" style="cursor: pointer;">
+                  <!-- <a class="dropdown-item" (click)="openIncentivePricesModal(incentivePrices, doctor)" style="cursor: pointer;">
                     Set incentive prices
-                  </a>
+                  </a> -->
                   <ng-template *ngIf="doctor.qrcode != null; then showQrBtn; else dontshowQrBtn"></ng-template>
                   <ng-template #showQrBtn>
                     <a class="dropdown-item" (click)="openQRModal(qrModal,doctor)" style="cursor: pointer;">

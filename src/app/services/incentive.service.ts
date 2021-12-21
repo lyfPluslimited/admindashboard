@@ -34,4 +34,20 @@ export class IncentiveService {
     return this.http.get(`${this.config.REST_API_URL}/getGeneralTrackings/${doctorId}`)
   }
 
+  public getDoctorKpiPrices(id){
+    return this.http.get(`${this.config.REST_API_URL}/doctorKpiPrices/${id}`)
+  }
+
+  public udpateKpiPricesForDoctor(data, id){
+    return this.http.post(`${this.config.REST_API_URL}/updateDoctorKpiPrices/${id}`, data)
+  }
+
+  public getKpis(){
+    return this.http.get(`${this.config.REST_API_URL}/displayKPIs`)
+  }
+
+  public updateKpiQuantities(data){
+    return this.http.post(`${this.config.REST_API_URL}/updateKpiQuantity`, data)
+  }
+
 }

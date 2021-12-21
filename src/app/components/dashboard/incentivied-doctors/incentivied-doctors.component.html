@@ -6,6 +6,11 @@
 
   <!-- Incentive doctors datatables -->
   <div class="card shadow mb-4">
+    <div class="card-header">
+      <button class="btn btn-primary" (click)="openKpiListModal(kpiListModal)">
+        Kpi default quantites
+      </button>
+    </div>
     <div class="card-body">
       <div class="table-responsive">
         <table
@@ -38,6 +43,7 @@
                 <a [routerLink]="['/dashboard/incentive-general', doctor.userID]" class="btn btn-dark btn-sm ml-2">
                   View overall KPIs
                 </a>
+                <button class="btn btn-info btn-sm ml-2" (click)="openKpiPriceModal(doctor, priceModal)">Edit Kpi prices</button>
               </td>
             </tr>
           </tbody>
@@ -46,3 +52,148 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #priceModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Doctor Incentive Prices
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+      <form [formGroup]="kpiPriceForm" (ngSubmit)="setIncentivePrices()">
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Patient invitation price
+          </label>
+          <div class="col-md-6">
+            <input formControlName="invitationPrice" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Successful signup price
+          </label>
+          <div class="col-md-6">
+            <input formControlName="successfulSignUpPrice" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Online time price
+          </label>
+          <div class="col-md-6">
+            <input type="text" formControlName="onlineTimePrice" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Forum post price
+          </label>
+          <div class="col-md-6">
+            <input type="text" formControlName="forumPostPrice" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Answered question price
+          </label>
+          <div class="col-md-6">
+            <input type="text" formControlName="qnAnsPrice" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-warning">
+            Update
+          </button>
+        </div>
+        
+      </form>
+  </div>
+</ng-template>
+
+<ng-template #kpiListModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Kpi quantites
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+      <form [formGroup]="kpiQuantityForm" (ngSubmit)="updateKpiQuantity()">
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Patient invitation quantity
+          </label>
+          <div class="col-md-6">
+            <input formControlName="invitationqnty" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Successful signup quantity
+          </label>
+          <div class="col-md-6">
+            <input formControlName="signupqnty" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Online time quantity
+          </label>
+          <div class="col-md-6">
+            <input type="number" formControlName="onlineTimeqnty" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Forum post quantity
+          </label>
+          <div class="col-md-6">
+            <input type="number" formControlName="forumqnty" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">
+            Answered question quantity
+          </label>
+          <div class="col-md-6">
+            <input type="text" formControlName="qnqnty" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-warning">
+            Update
+          </button>
+        </div>
+        
+      </form>
+  </div>
+</ng-template>
