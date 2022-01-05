@@ -5,6 +5,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
+import { User } from 'src/app/models/user.model';
 import { IncentiveService } from 'src/app/services/incentive.service';
 
 @Component({
@@ -52,10 +53,10 @@ export class IncentiviedDoctorsComponent implements OnInit, OnDestroy {
       })
     }
 
-    openKpiPriceModal(doctor, priceModal){
+    openKpiPriceModal(doctor: User, priceModal){
 
       this.doctorId = doctor.userID
-      console.log(this.doctorId)
+      console.log(doctor)
       this.incentiveService.getDoctorKpiPrices(doctor.userID).subscribe((res:any) => {
         console.log(res)
         var kpi1 = res.find((x:any)=> x.kpi_id == 1).unit_amount
@@ -69,7 +70,8 @@ export class IncentiviedDoctorsComponent implements OnInit, OnDestroy {
           successfulSignUpPrice: kpi2,
           onlineTimePrice: kpi3,
           forumPostPrice: kpi4,
-          qnAnsPrice: kpi5
+          qnAnsPrice: kpi5,
+          consultationPercentage: Number(doctor.incentive_percentage)*100
         })
 
         this.modal.open(priceModal, { centered: true })
@@ -81,7 +83,8 @@ export class IncentiviedDoctorsComponent implements OnInit, OnDestroy {
       successfulSignUpPrice: new FormControl(''),
       onlineTimePrice: new FormControl(''),
       forumPostPrice: new FormControl(''),
-      qnAnsPrice: new FormControl('')
+      qnAnsPrice: new FormControl(''),
+      consultationPercentage: new FormControl('')
     })
 
     kpiQuantityForm = new FormGroup({

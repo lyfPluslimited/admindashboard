@@ -39,7 +39,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
   hospitals: Hospital[] = [];
   consultationPeriod;
   doctorImage;
-  incentive:boolean
+  incentive: boolean;
 
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
@@ -53,22 +53,51 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private hospitalService: HospitalService,
     private incentiveService: IncentiveService,
-    private qrService :QrcodeService,
+    private qrService: QrcodeService
   ) {}
 
   changeIncentivesModal(doctorIncentive, doctor: User) {
-    this.incentive = doctor.incentive_doctor
-    this.doctorID = doctor.userID
-    this.modalService.open(doctorIncentive, { centered: true })
+    this.incentive = doctor.incentive_doctor;
+    this.doctorID = doctor.userID;
+    this.modalService.open(doctorIncentive, { centered: true });
   }
 
-  openIncentivePricesModal(incentivePrices,doctor: User){
-    this.doctorID = doctor.userID
-    this.modalService.open(incentivePrices, { centered: true })
+  openIncentivePricesModal(incentivePrices, doctor: User) {
+    this.doctorID = doctor.userID;
+    this.modalService.open(incentivePrices, { centered: true });
   }
 
-  openDoctorDetailsModal(doctorDetails, doctor: User) {
-    this.doctorDetailForm.patchValue(doctor);
+  openDoctorDetailsModal(doctorDetails, doctor) {
+    this.doctorDetailForm.patchValue({
+      userID: doctor.userID,
+      firstName: doctor.firstName,
+      lastName:  doctor.lastName,
+      phone: doctor.phone,
+      email: doctor.email,
+      consultation_fee: doctor.consultation_fee,
+      call_fee: doctor.call_fee,
+      doctorsIDnumber: doctor.doctorsIDnumber,
+      doctorsIDverificationStatus: doctor.doctorsIDverificationStatus,
+      height: doctor.height,
+      weight: doctor.weight,
+      blood_group: doctor.blood_group,
+      allergy: doctor.allergy,
+      doctor_bio: doctor.doctor_bio,
+      experience: doctor.experience,
+      ip_address: doctor.ip_address,
+      user_image: doctor.user_image,
+      dateofBirth: doctor.dateOfBirth,
+      gender: doctor.gender,
+      userNhifNumber: doctor.userNhifNumber,
+      specializationID: doctor.specializationID,
+      specializationAreaID: doctor.specilizationAreaID,
+      call_payment_id: doctor.consultation_payments.find(x => x.consultation_type == 'call').gpay_id,
+      consultation_payment_id: doctor.consultation_payments.find(x => x.consultation_type == 'chat').gpay_id,
+      subscription1_payment_id: doctor.subscription_payments.find(x => x.subscription_period == '1 month').gpay_id,
+      subscription2_payment_id: doctor.subscription_payments.find(x => x.subscription_period == '3 months').gpay_id,
+      subscription3_payment_id: doctor.subscription_payments.find(x => x.subscription_period == '6 months').gpay_id,
+      incentive_doctor: doctor.incentive_doctor,
+    });
     this.doctorImage = doctor.user_image;
     this.selectedSpecialization = doctor.specializationID;
     this.selectedHospital = doctor.specilizationAreaID;
@@ -86,10 +115,12 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     this.modalService.open(doctorVerification, { centered: true });
   }
 
-  openEditModal(doctorEdit, doctor: User) {
+  openEditModal(doctorEdit, doctor) {
+    console.log(doctor)
     this.updateDoctorForm.patchValue(doctor);
     this.selectedSpecialization = doctor.specializationID;
-    console.log('specialization is ', this.selectedSpecialization);
+    this.selectedHospital = doctor.specilizationAreaID;
+    
     this.modalService.open(doctorEdit, { centered: true, size: 'lg' });
   }
 
@@ -163,7 +194,9 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     specializationAreaID: new FormControl({ value: '', disabled: true }),
     call_payment_id: new FormControl({ value: '', disabled: true }),
     consultation_payment_id: new FormControl({ value: '', disabled: true }),
-    subscription_payment_id: new FormControl({ value: '', disabled: true }),
+    subscription1_payment_id: new FormControl({ value: '', disabled: true }),
+    subscription2_payment_id: new FormControl({ value: '', disabled: true }),
+    subscription3_payment_id: new FormControl({ value: '', disabled: true }),
     incentive_doctor: new FormControl({ value: '', disabled: true }),
   });
 
@@ -174,6 +207,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     phone: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     specializationID: new FormControl(''),
+    specilizationAreaID: new FormControl(''),
   });
 
   kpiPricesForm = new FormGroup({
@@ -181,8 +215,8 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     successfulSignUpPrice: new FormControl('5000', Validators.required),
     onlineTimePrice: new FormControl('5000', Validators.required),
     forumPostPrice: new FormControl('3000', Validators.required),
-    qnAnsPrice: new FormControl('3000', Validators.required)
-  })
+    qnAnsPrice: new FormControl('3000', Validators.required),
+  });
 
   changeFeeForm = new FormGroup({
     userID: new FormControl('', Validators.required),
@@ -208,6 +242,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
   }
 
   submitDoctorDetails() {
+    console.log(this.updateDoctorForm.value)
     this.modalService.dismissAll();
     this.spinner.show();
     this.userService
@@ -243,43 +278,44 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
       });
   }
 
-  setIncentivePrices(){
-    this.modalService.dismissAll()
-    this.spinner.show()
-    console.log(this.kpiPricesForm.value)
-    this.incentiveService.setKpiPricesForDoctor(this.kpiPricesForm.value, this.doctorID)
-      .subscribe(res => {
-        console.log(res)
-        this.kpiPricesForm.reset()
-        this.spinner.hide()
-        this.ngOnInit()
-      })
+  setIncentivePrices() {
+    this.modalService.dismissAll();
+    this.spinner.show();
+    console.log(this.kpiPricesForm.value);
+    this.incentiveService
+      .setKpiPricesForDoctor(this.kpiPricesForm.value, this.doctorID)
+      .subscribe((res) => {
+        console.log(res);
+        this.kpiPricesForm.reset();
+        this.spinner.hide();
+        this.ngOnInit();
+      });
   }
 
-  changeIncentive(id){
-    this.modalService.dismissAll()
-    this.spinner.show()
-    this.incentiveService.updateIncentiveStatus(id).subscribe(res => {
-      console.log(res)
-      this.spinner.hide()
-      this.ngOnInit()
-    })
+  changeIncentive(id) {
+    this.modalService.dismissAll();
+    this.spinner.show();
+    this.incentiveService.updateIncentiveStatus(id).subscribe((res) => {
+      console.log(res);
+      this.spinner.hide();
+      this.ngOnInit();
+    });
   }
 
-  generateQRCode(id){
-    this.modalService.dismissAll()
-    this.spinner.show()
-    this.qrService.generateQR(id).subscribe(res => {
-      console.log(res)
-      this.spinner.hide()
-      this.ngOnInit()
-    })
+  generateQRCode(id) {
+    this.modalService.dismissAll();
+    this.spinner.show();
+    this.qrService.generateQR(id).subscribe((res) => {
+      console.log(res);
+      this.spinner.hide();
+      this.ngOnInit();
+    });
   }
 
-  openQRModal(qrModal, doctor: User){
-    this.doctorImage = `http://167.172.12.18/app/public${doctor.qrcode}`
-    this.doctorObj = doctor
-    this.modalService.open(qrModal, { centered: true })
+  openQRModal(qrModal, doctor: User) {
+    this.doctorImage = `http://167.172.12.18/app/public${doctor.qrcode}`;
+    this.doctorObj = doctor;
+    this.modalService.open(qrModal, { centered: true });
   }
 
   ngOnInit(): void {
@@ -293,15 +329,15 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     });
 
     this.hospitalService.getHospitals().subscribe((res) => {
-      this.hospitals = res;
+      this.hospitals = res.sort((a, b) => a.areaOfSpecialization.localeCompare(b.areaOfSpecialization));
     });
 
     this.specializationService.getSpecializations().subscribe((res) => {
       this.specialities = res;
     });
 
-    this.userService.getUsers().subscribe((res) => {
-      this.doctors = res.filter((data) => data.userRole === 2);
+    this.userService.getDocs().subscribe((res) => {
+      this.doctors = res;
       if (this.isDtInitialized) {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           dtInstance.destroy();

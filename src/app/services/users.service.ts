@@ -16,6 +16,10 @@ export class UsersService {
     return this.http.get<User[]>(`${this.config.REST_API_URL}/admin/users`);
   }
 
+  public getDocs(): Observable<[]>{
+    return this.http.get<[]>(`${this.config.REST_API_URL}/admin/getDocs`);
+  }
+
   public verifyDoctor(userID){
     return this.http.post(`${this.config.REST_API_URL}/verify-specialist`, {userID})
   }
