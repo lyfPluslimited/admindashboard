@@ -68,6 +68,7 @@
         <tr>
           <th scope="col">KPI name</th>
           <th scope="col">Time done</th>
+          <th scope="col">Price</th>
         </tr>
       </thead>
       <tbody>
@@ -77,6 +78,9 @@
           </td>
           <td>
             {{ convertDateTimeToTime(x.created_at) }}
+          </td>
+          <td>
+            {{  displayKpiPrice(x.kpi.id) }}
           </td>
         </tr>
       </tbody>

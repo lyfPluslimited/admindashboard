@@ -22,6 +22,11 @@ export class IncentiveGeneralComponent implements OnInit, OnDestroy {
 
   tracking:[]
   incentives:[]
+  kpiPrices:any
+
+  displayKpiPrice(kpiID:any){
+    return this.kpiPrices.find((x:any) => x.kpi_id == kpiID).unit_amount
+  }
 
   constructor(
     private incentive: IncentiveService,
@@ -43,10 +48,12 @@ export class IncentiveGeneralComponent implements OnInit, OnDestroy {
     //get id from URL
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.incentive.getGeneralTracking(id).subscribe((res:[]) => {
+    this.incentive.doctorPrices(id).subscribe((res:any)=> {
+      this.kpiPrices = res.prices
+    })
 
+    this.incentive.getGeneralTracking(id).subscribe((res:any) => {
       this.tracking = res
-      console.log(res)
 
       if (this.isDtInitialized) {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

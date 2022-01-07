@@ -22,12 +22,17 @@ export class IncentiveListComponent implements OnInit, OnDestroy {
 
   tracking: [];
   incentives: [];
+  kpiPrices:any
 
   constructor(
     private incentive: IncentiveService,
     private route: ActivatedRoute,
     private modal: NgbModal
   ) {}
+
+  displayKpiPrice(kpiID:any){
+    return this.kpiPrices.find((x:any) => x.kpi_id == kpiID).unit_amount
+  }
 
   convertDateTimetoNewFormat(date) {
     return moment(date).format('DD/MM/YY');
@@ -50,6 +55,10 @@ export class IncentiveListComponent implements OnInit, OnDestroy {
 
     //get id from URL
     const id = this.route.snapshot.paramMap.get('id');
+
+    this.incentive.doctorPrices(id).subscribe((res:any)=> {
+      this.kpiPrices = res.prices
+    })
 
     this.incentive.getKpisDoneInTracking(id).subscribe((res: []) => {
       this.tracking = res;

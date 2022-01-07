@@ -50,4 +50,8 @@ export class IncentiveService {
     return this.http.post(`${this.config.REST_API_URL}/updateKpiQuantity`, data)
   }
 
+  public doctorPrices(doctorId){
+    return this.http.get(`${this.config.REST_API_URL}/doctorKPIprices/${doctorId}`)
+  }
+
 }
