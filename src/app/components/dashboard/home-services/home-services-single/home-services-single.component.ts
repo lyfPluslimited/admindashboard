@@ -46,6 +46,15 @@ export class HomeServicesSingleComponent implements OnInit, OnDestroy {
     });
   }
 
+  docApproval(doctorID){
+    this.spinner.show()
+    this.homeService.approveOrDisapproveDoctor(this.serviceID,doctorID).subscribe(res =>  {
+      console.log(res)
+      this.spinner.hide()
+      this.ngOnInit()
+    })
+  }
+
   dDoctorModal(deleteDoctorModal, doctor){
     this.doctor = doctor;
     this.modalService.open(deleteDoctorModal, {centered: true})
@@ -75,9 +84,9 @@ export class HomeServicesSingleComponent implements OnInit, OnDestroy {
     })
 
     //get doctors related to this home service
-    this.homeService.getDoctors(id).subscribe((res) => {
+    this.homeService.getDoctors(id).subscribe((res:any) => {
 
-      this.doctorsFromService = res
+      this.doctorsFromService = res.doctors
 
       if (this.isDtInitialized) {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

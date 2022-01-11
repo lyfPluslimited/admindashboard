@@ -1,0 +1,52 @@
+<div>
+  <div class="d-flex row justify-content-start mb-4">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Patient Invitations</h1>
+  </div>
+
+  <!-- Incentive doctors datatables -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="row-border hover"
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Doctor</th>
+              <th>Date added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of invitations">
+              <td>{{ i.first_name }} {{ i.last_name }}</td>
+              <td>
+                {{ i.phone }}
+              </td>
+              <td>
+                <ng-template
+                  *ngIf="i.doctor == null; then dontShowDoc; else showDoc"
+                >
+                </ng-template>
+                <ng-template #showDoc>
+                  Dr. {{ i.doctor.firstName }} {{ i.doctor.lastName }}
+                </ng-template>
+                <ng-template #dontShowDoc>
+                  Doctor removed from system
+                </ng-template>
+              </td>
+              <td>
+                {{ calculateTime(i.date_added) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { HospitalService } from 'src/app/services/hospital.service';
 import { TopicService } from 'src/app/services/topic.service';
 import { UsersService } from 'src/app/services/users.service';
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,10 @@ export class HomeComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private hospitalService: HospitalService
     ) { }
+
+  calculateNumberOfNewUsersToday(list: User[]){
+    return list.filter(x => moment(x.timeSt).format('l') == moment().format('l')).length
+  }
 
   ngOnInit(): void {
     this.spinner.show()

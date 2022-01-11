@@ -43,4 +43,8 @@ export class HomeServicesService {
   public getConfirmedVisits(): Observable<ConfirmedVisit[]>{
     return this.http.get<ConfirmedVisit[]>(`${this.config.REST_API_URL}/services/visits`);
   }
+
+  public approveOrDisapproveDoctor(homeserviceid, doctorid){
+    return this.http.get(`${this.config.REST_API_URL}/services/approvalstatus/${homeserviceid}/${doctorid}`)
+  }
 }

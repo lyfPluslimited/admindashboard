@@ -44,6 +44,7 @@ import { IncentiviedDoctorsComponent } from './components/dashboard/incentivied-
 import { IncentiveListComponent } from './components/dashboard/incentive-list/incentive-list.component';
 import { ToastrModule } from 'ngx-toastr';
 import { IncentiveGeneralComponent } from './components/dashboard/incentive-general/incentive-general.component';
+import { InvitationsComponent } from './components/dashboard/invitations/invitations.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { IncentiveGeneralComponent } from './components/dashboard/incentive-gene
     SubscriptionComponent,
     IncentiviedDoctorsComponent,
     IncentiveListComponent,
-    IncentiveGeneralComponent
+    IncentiveGeneralComponent,
+    InvitationsComponent
   ],
   imports: [
     BrowserModule,
