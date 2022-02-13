@@ -91,13 +91,12 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
       userNhifNumber: doctor.userNhifNumber,
       specializationID: doctor.specializationID,
       specializationAreaID: doctor.specilizationAreaID,
-      call_payment_id: doctor.consultation_payments.find(x => x.consultation_type == 'call').gpay_id,
-      consultation_payment_id: doctor.consultation_payments.find(x => x.consultation_type == 'chat').gpay_id,
-      subscription1_payment_id: doctor.subscription_payments.find(x => x.subscription_period == '1 month').gpay_id,
-      subscription2_payment_id: doctor.subscription_payments.find(x => x.subscription_period == '3 months').gpay_id,
-      subscription3_payment_id: doctor.subscription_payments.find(x => x.subscription_period == '6 months').gpay_id,
+      call_payment_id: doctor.call_payment_id,
+      consultation_payment_id: doctor.consultation_payment_id,
+      subscription_payment_id: doctor.subscription_payment_id,
       incentive_doctor: doctor.incentive_doctor,
     });
+    console.log(doctor)
     this.doctorImage = doctor.user_image;
     this.selectedSpecialization = doctor.specializationID;
     this.selectedHospital = doctor.specilizationAreaID;
@@ -194,9 +193,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
     specializationAreaID: new FormControl({ value: '', disabled: true }),
     call_payment_id: new FormControl({ value: '', disabled: true }),
     consultation_payment_id: new FormControl({ value: '', disabled: true }),
-    subscription1_payment_id: new FormControl({ value: '', disabled: true }),
-    subscription2_payment_id: new FormControl({ value: '', disabled: true }),
-    subscription3_payment_id: new FormControl({ value: '', disabled: true }),
+    subscription_payment_id: new FormControl({ value: '', disabled: true }),
     incentive_doctor: new FormControl({ value: '', disabled: true }),
   });
 
