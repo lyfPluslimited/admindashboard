@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Node version
+
+This project runs on node version 12.11
+
+## Commands before build and serving
+
+If `ng build` or `ng serve` fails the first time on running; run the following command `set NODE_OPTIONS=--openssl-legacy-provider` then run the followup command.
