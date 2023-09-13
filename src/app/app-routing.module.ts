@@ -27,6 +27,10 @@ import { IncentiviedDoctorsComponent } from './components/dashboard/incentivied-
 import { IncentiveListComponent } from './components/dashboard/incentive-list/incentive-list.component';
 import { IncentiveGeneralComponent } from './components/dashboard/incentive-general/incentive-general.component';
 import { InvitationsComponent } from './components/dashboard/invitations/invitations.component';
+import { ConsultationsComponent } from './components/dashboard/consultations/consultations.component';
+import { ConditionsComponent } from './components/dashboard/conditions/conditions.component';
+import { IndividualConditionComponent } from './components/dashboard/individual-condition/individual-condition.component';
+import { NoninfectiousConditionComponent } from './components/dashboard/noninfectious-condition/noninfectious-condition.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -137,6 +141,24 @@ const routes: Routes = [
       {
         path: 'service/:id',
         component: HomeServicesSingleComponent
+      },
+      {
+        path: 'consult',
+        component: ConsultationsComponent
+      },
+
+      {
+        path: 'conditions',
+        component: ConditionsComponent
+      },
+      {
+        path: 'individual-conditions',
+        component: IndividualConditionComponent
+      },
+
+      {
+        path: 'noninfectious',
+        component: NoninfectiousConditionComponent
       },
 
       //Payment

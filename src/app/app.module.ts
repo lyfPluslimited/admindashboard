@@ -45,6 +45,10 @@ import { IncentiveListComponent } from './components/dashboard/incentive-list/in
 import { ToastrModule } from 'ngx-toastr';
 import { IncentiveGeneralComponent } from './components/dashboard/incentive-general/incentive-general.component';
 import { InvitationsComponent } from './components/dashboard/invitations/invitations.component';
+import { ConsultationsComponent } from './components/dashboard/consultations/consultations.component';
+import { ConditionsComponent } from './components/dashboard/conditions/conditions.component';
+import { IndividualConditionComponent } from './components/dashboard/individual-condition/individual-condition.component';
+import { NoninfectiousConditionComponent } from './components/dashboard/noninfectious-condition/noninfectious-condition.component';
 
 
 @NgModule({
@@ -77,7 +81,11 @@ import { InvitationsComponent } from './components/dashboard/invitations/invitat
     IncentiviedDoctorsComponent,
     IncentiveListComponent,
     IncentiveGeneralComponent,
-    InvitationsComponent
+    InvitationsComponent,
+    ConsultationsComponent,
+    ConditionsComponent,
+    IndividualConditionComponent,
+    NoninfectiousConditionComponent
   ],
   imports: [
     BrowserModule,

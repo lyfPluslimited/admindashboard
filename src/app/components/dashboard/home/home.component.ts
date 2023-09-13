@@ -13,6 +13,7 @@ import * as moment from 'moment'
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
   totalUsers: User[] = [];
   totalSpecialistsCount: number;
