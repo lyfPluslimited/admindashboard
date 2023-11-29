@@ -8,7 +8,7 @@ export class ConfigService {
 
   constructor(private http: HttpClient) { }
 
-  public REST_API_URL = 'http://167.172.12.18/app/public/api' 
+  public REST_API_URL = 'http://167.99.234.178/app/public/api' 
 
   getConsultationPeriod(){
     return this.http.get(`${this.REST_API_URL}/admin/get-consultation-period`)
