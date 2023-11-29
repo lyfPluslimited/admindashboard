@@ -14,6 +14,7 @@ import { Hospital } from 'src/app/models/hospital.model';
 import { HospitalService } from 'src/app/services/hospital.service';
 import { IncentiveService } from 'src/app/services/incentive.service';
 import { QrcodeService } from 'src/app/services/qrcode.service';
+import { Doctor, additionalDoctors } from 'fake-data';
 
 @Component({
   selector: 'app-specialists',
@@ -27,7 +28,7 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  doctors: User[] = [];
+  doctors: Doctor[] = [];
   doctorTransactions: DoctorSessions[] = [];
   doctorObj: User;
   doctorID: number;
@@ -333,8 +334,15 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
       this.specialities = res;
     });
 
-    this.userService.getDocs().subscribe((res) => {
-      this.doctors = res;
+    
+
+    this.userService.getDocs().subscribe((apiDoctors) => {
+
+      this.doctors = [...apiDoctors, ...additionalDoctors];
+
+      // console.log(apiDoctors)
+  
+      
       if (this.isDtInitialized) {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           dtInstance.destroy();
@@ -348,7 +356,6 @@ export class SpecialistsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
 }

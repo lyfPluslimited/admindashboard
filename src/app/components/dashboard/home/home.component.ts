@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
     this.userService.getUsers().subscribe(res => {
       this.totalUsers = res.filter(data => data.userRole === 1);
       this.totalSpecialistsCount = res.filter(data => data.userRole === 2).length;
+      // this.totalSpecialistsCount = 158;
     });
 
     this.hospitalService.getHospitals().subscribe(data => {
