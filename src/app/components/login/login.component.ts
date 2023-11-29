@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
   onSubmit(){
     this.spinner.show()
     if(this.loginForm.get('email').value == 'admin@admin.com'){
+      console.log(this.loginForm.get('password').value);
+      
       this.authService.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
     }
     this.spinner.hide()
